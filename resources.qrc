@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>res/Lepesh.png</file>
+        <file>res/phone.png</file>
+    </qresource>
+</RCC>

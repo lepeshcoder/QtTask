@@ -21,7 +21,7 @@ Model::~Model()
 
 void Model::Initialize()
 {
-    QString resDir = "res";
+    QString resDir = ":resources/res";
     if(!resDir.isNull())
        {
            QDir directory(resDir);

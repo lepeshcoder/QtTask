@@ -19,13 +19,23 @@ public:
     ~MainWindow();
 
 private:
+    /**
+        * @brief Метод инициализации окна включающий в себя инициализацию компонентов и связывания сигналов слотов.
+        */
     void Initialize();
+
+    /**
+        * @brief Метод инициализации компонентов.
+        */
     void InitializeComponents();
+    /**
+        * @brief Метод связывания сигналов слотов.
+        */
     void SetUpSignalSlots();
 
 private:
     Ui::MainWindow *ui;
-    Model model;
+    Model model; /**< Модель данных для подобия паттерна MVVM. */
 
 };
 #endif // MAINWINDOW_H

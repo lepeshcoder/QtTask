@@ -13,7 +13,10 @@ MyTableView::MyTableView(QWidget *parent) : QTableView(parent)
 
 void MyTableView::OnItemClickSlot(int index, MyItem *item)
 {
+    // Обновляем индекс выбранного элемента
     currentIndex = index;
+
+    // Создаём и заполняем модель данными из модели
     QStandardItemModel* model = new QStandardItemModel();
 
     QList<QStandardItem*> list;
@@ -42,9 +45,11 @@ void MyTableView::OnItemClickSlot(int index, MyItem *item)
 
     model->appendRow(list1);
 
+    // отключяем индексные строки и стоблцы
     verticalHeader()->hide();
     horizontalHeader()->hide();
 
+    // устанавливаем модель
     setModel(model);
 }
 
@@ -54,18 +59,22 @@ void MyTableView::dataChanged(const QModelIndex &topLeft, const QModelIndex &bot
     Q_UNUSED(roles);
     if (topLeft == bottomRight)
     {
+        // если колонка это свойство
         if(topLeft.column() == PropertyConstants::EditableColumn)
         {
+            // выбираем тип измененного свойства
             switch(topLeft.row())
             {
             case PropertyConstants::xValue:
             {
+                // конвертируем его
                 QVariant data = topLeft.data(Qt::DisplayRole);
                 if (data.isValid()) {
                     bool ok;
                     int intValue = data.toInt(&ok);
                     if(ok)
                     {
+                        // вызываем обновление модели
                        emit OnCommitDataSignal(currentIndex,PropertyConstants::xValue,intValue);
                     }
                 }

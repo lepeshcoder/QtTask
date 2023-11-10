@@ -20,11 +20,13 @@ void MyGraphicsView::Initialize(QGraphicsScene *scene)
 
 void MyGraphicsView::dropEvent(QDropEvent *event)
 {
+    // получаем картинку из mimedata
     QImage image;
     QByteArray data = event->mimeData()->data("image/png");
     if (image.loadFromData(data))
     {
         QPixmap pixmap = QPixmap::fromImage(image);
+        // оповещаем модель о добавлении нового элемента
         emit OnItemDropSignal(pixmap);
     }
 }
@@ -37,13 +39,13 @@ void MyGraphicsView::dragEnterEvent(QDragEnterEvent *event)
 
 void MyGraphicsView::dragLeaveEvent(QDragLeaveEvent *event)
 {
-    event->accept();
+   // event->accept();
 }
 
 void MyGraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
-    event->accept();
-    event->acceptProposedAction();
+   // event->accept();
+   // event->acceptProposedAction();
 }
 
 void MyGraphicsView::OnModelAddItemSlot(MyItem* item)

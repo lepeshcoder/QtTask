@@ -45,12 +45,13 @@ const QVector<QIcon> &Model::GetIcons()
 
 void Model::OnItemDropSlot(QPixmap& pixmap)
 {
+    // добавляем новый элемент в модель
     QPointF point(0,0);
     MyItem* item = new MyItem(new QGraphicsPixmapItem(pixmap),point);
     items.append(item);
 
+    // вызываем событие обновления graphicsView и TableView
     emit OnAddItemSignal(item);
-
 }
 
 void Model::OnItemClickSlot(int index)
@@ -65,19 +66,23 @@ void Model::OnCommitPropertySlot(int index, int valueType, int newValue)
     {
     case PropertyConstants::xValue:
     {
+        // Получаем новую позицию элемента
         QPointF oldPoint = items[index]->getPoint();
         QPointF newPoint(oldPoint);
         newPoint.setX(newValue);
         items[index]->SetPosition(newPoint);
+        // Вызываем обновление graphicsView
         emit OnPropertyChangedSignal(index,newPoint);
         break;
     }
     case PropertyConstants::yValue:
     {
+        // Получаем новую позицию элемента
         QPointF oldPoint = items[index]->getPoint();
         QPointF newPoint(oldPoint);
         newPoint.setY(newValue);
         items[index]->SetPosition(newPoint);
+         // Вызываем обновление graphicsView
         emit OnPropertyChangedSignal(index,newPoint);
         break;
     }

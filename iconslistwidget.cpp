@@ -21,35 +21,37 @@ void IconsListWidget::Initialize(const QVector<QIcon> &icons)
     }
 }
 
-void IconsListWidget::startDrag(Qt::DropActions supportedActions)
-{
-    QModelIndex currentIndex = this->currentIndex();
-    QAbstractItemModel *model = this->model();
+    void IconsListWidget::startDrag(Qt::DropActions supportedActions)
+    {
+        QModelIndex currentIndex = this->currentIndex();
+        QAbstractItemModel *model = this->model();
 
-    if (currentIndex.isValid() && model) {
-        QVariant iconData = model->data(currentIndex, Qt::DecorationRole);
-        if (iconData.isValid()) {
-            QIcon icon = qvariant_cast<QIcon>(iconData);
-            QPixmap pixmap = icon.pixmap(QSize(64, 64));
-            QLabel *dragLabel = new QLabel(this);
-            dragLabel->setPixmap(icon.pixmap(QSize(64,64)));
-            dragLabel->move(QCursor::pos());
+        if (currentIndex.isValid() && model) {
+            QVariant iconData = model->data(currentIndex, Qt::DecorationRole);
+            if (iconData.isValid()) {
+                QIcon icon = qvariant_cast<QIcon>(iconData);
+                QPixmap pixmap = icon.pixmap(QSize(64, 64));
+                QLabel *dragLabel = new QLabel(this);
+                dragLabel->setPixmap(icon.pixmap(QSize(64,64)));
+                dragLabel->move(QCursor::pos());
 
-            QDrag *drag = new QDrag(this);
-            QMimeData *mimeData = new QMimeData;
+                QDrag *drag = new QDrag(this);
+                QMimeData *mimeData = new QMimeData;
 
-            QByteArray imageData;
-            QBuffer buffer(&imageData);
-            buffer.open(QIODevice::WriteOnly);
-            pixmap.save(&buffer, "PNG");
+                QByteArray imageData;
+                QBuffer buffer(&imageData);
+                buffer.open(QIODevice::WriteOnly);
+                pixmap.save(&buffer, "PNG");
 
-            mimeData->setData("image/png", imageData);
+                mimeData->setData("image/png", imageData);
 
-            drag->setMimeData(mimeData);
-            drag->setPixmap(*dragLabel->pixmap());
-            drag->setHotSpot(QPoint(dragLabel->width() / 2, dragLabel->height() / 2));
+                drag->setMimeData(mimeData);
+                drag->setPixmap(*dragLabel->pixmap());
+                drag->setHotSpot(QPoint(dragLabel->width() / 2, dragLabel->height() / 2));
 
-            drag->exec(supportedActions, Qt::CopyAction);
+                drag->exec(supportedActions, Qt::CopyAction);
+                delete dragLabel;
+
+            }
         }
     }
-}
